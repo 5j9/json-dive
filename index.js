@@ -1,4 +1,6 @@
-let bracketsOnly = false;
+const urlParams = new URLSearchParams(window.location.search);
+let bracketsOnly = urlParams.get('bracketsOnly') === 'true';
+document.getElementById("brackets").checked = bracketsOnly;
 let lastHighlighted = {style: {}};
 
 const keyToStr = k =>
@@ -135,6 +137,8 @@ $("textarea").addEventListener("keyup", handleNewJSON);
 $("textarea").value = defaultJSON;
 $("#brackets").addEventListener("change", e => {
   bracketsOnly = !bracketsOnly;
+  urlParams.set('bracketsOnly', bracketsOnly);
+  window.location.search = urlParams.toString();
   handleNewJSON({target: {value: $("textarea").value}});
 });
 handleNewJSON({target: {value: defaultJSON}});
